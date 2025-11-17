@@ -1,0 +1,296 @@
+show databases;
+create database practise;
+
+1NF:
+
+
+Q1: 
+
+to convert the table into 1NF:
+
+create table StudentInfo (
+    studentId numeric,
+    Name varchar(35),
+    PhoneNumber varchar(10)
+);
+
+insert into StudentInfo values(studentId, Name, PhoneNumber) VALUES
+(101, 'Ravi', '98765'),
+(101, 'Ravi', '87654'),
+(102, 'Anita', '99900'),
+(103, 'John', '88888'),
+(103, 'John', '77777'),
+(103, 'John', '66666');
+
+
+
+Q2. 
+
+create table customers (
+orderID numeric ,
+Customer varchar(30),
+Items varchar(30)
+);
+
+insert into customers values(
+(01,'Raj','Pen'),
+(01,'Raj','Pencil'),
+(02,'Sam','Notebook'),
+(03,'Raj','Eraser'),
+(03,'Raj','Marker'),
+(03,'Raj','Pen'),
+);
+
+
+Q3.
+
+create table employee(
+    EmpID int,
+    EmpName varchar(50),
+    Skill varchar(50)
+);
+
+insert into employee(EmpID, EmpName, Skill) VALUES
+(1, 'Ramesh', 'Java'),
+(1, 'Ramesh', 'Python'),
+(2, 'Anita', 'Excel'),
+(3, 'John', 'C++'),
+(3, 'John', 'Java'),
+(3, 'John', 'HTML');
+
+Q4. 
+
+CREATE TABLE Customers1NF (
+    CustID INT,
+    Name VARCHAR(50),
+    City VARCHAR(50),
+    State VARCHAR(50),
+    Country VARCHAR(50)
+);
+
+INSERT INTO Customers1NF (CustID, Name, City, State, Country) VALUES
+(1, 'Meera', 'Hyderabad', 'Telangana', 'India'),
+(2, 'Ajay', 'Pune', 'Maharashtra', 'India');
+
+2NF:
+
+Q5:
+show databases;
+create database practise;
+use practise;
+create table student(
+StudentID numeric primary key,
+StudentName varchar(35)
+);
+
+create table courses(
+courseID varchar(10) primary key,
+courseName varchar(50),
+Faculty varchar(100)
+);
+
+create table enrollment (
+StudentID numeric,
+CourseID varchar(10),
+Marks varchar(20),
+primary key (StudentID , CourseID),
+Foreign Key (StudentID) references student(StudentID),
+foreign key (CourseID) references courses(courseID)
+);
+
+show tables;
+
+insert into student values
+(1,'Ramesh'),
+(2,'Anita')
+;
+
+insert into courses values
+('c1','Java','Amit'),
+('c2','Python','Seema');
+
+insert into enrollment values
+(1,'c1',90),
+(1,'c2',85),
+(2,'c1',78);
+
+
+Q6:
+
+create table products(
+productID varchar(10) primary key,
+productName varchar(50)
+);
+
+create table orders(
+orderID numeric(10) primary key,
+customerName varchar(100)
+);
+
+create table orderDetails(
+orderID numeric(10),
+productID varchar(10),
+quantity varchar(5),
+foreign key (orderID) references orders(orderID),
+foreign key (productID) references products(productID),
+primary key(orderID, productID)
+);
+
+insert into products values
+('P1', 'Pen'),
+('P2','Pencil');
+
+insert into orders values
+(1,'Raj'),
+(2,'Meena');
+
+insert into orderDetails values
+(1,'P1','2'),
+(1,'P2','1'),
+(2,'P1','3')
+;
+
+
+Q7:
+
+create table employee(
+empID numeric primary key,
+empName varchar(10)
+);
+
+insert into employee values
+(1,'Ravi'),
+(2,'Anita');
+
+create table project(
+projectID varchar(5) primary key,
+ProjectName varchar (10)
+);
+
+insert into project values 
+('P1','WebApp'),
+('P2','MobileApp');
+
+create table projDetails(
+empID numeric,
+projectID varchar(5), 
+HoursWorked varchar(20),
+primary key (empID , projectID),
+foreign key (empID) references employee(empID),
+foreign key (projectID) references project(projectID)
+);
+
+insert into projDetails values
+(1,'P1','20'),
+(1,'P2','30'),
+(2,'P1','25');
+
+
+Q8:
+
+CREATE TABLE Drivers (
+  DriverID VARCHAR(10) PRIMARY KEY,
+  DriverName VARCHAR(100)
+);
+
+INSERT INTO Drivers (DriverID, DriverName) VALUES
+('D1', 'Amit'),
+('D2', 'Sunil');
+
+CREATE TABLE Routes (
+  RouteID VARCHAR(10) PRIMARY KEY,
+  RouteName VARCHAR(100),
+  Distance VARCHAR(20)
+);
+
+INSERT INTO Routes (RouteID, RouteName, Distance) VALUES
+('R1', 'Airport Route', '40 km'),
+('R2', 'City Route', '20 km');
+
+CREATE TABLE DriverRoutes (
+  DriverID VARCHAR(10),
+  RouteID VARCHAR(10),
+  PRIMARY KEY (DriverID, RouteID),
+  FOREIGN KEY (DriverID) REFERENCES Drivers(DriverID),
+  FOREIGN KEY (RouteID) REFERENCES Routes(RouteID)
+);
+
+INSERT INTO DriverRoutes (DriverID, RouteID) VALUES
+('D1', 'R1'),
+('D1', 'R2'),
+('D2', 'R1');
+
+
+Q9:
+
+1NF:
+CREATE TABLE Orders1NF (
+  OrderID VARCHAR(10),
+  CustomerName VARCHAR(50),
+  City VARCHAR(50),
+  ProductID VARCHAR(10),
+  ProductName VARCHAR(100),
+  Price DECIMAL(10,2),
+  Quantity INT
+);
+
+INSERT INTO Orders(OrderID, CustomerName, City, ProductID, ProductName, Price, Quantity) VALUES
+('O1','Ravi','Mumbai','P1','Pen',10,2),
+('O1','Ravi','Mumbai','P1','Pen',10,3),
+('O2','Meena','Delhi','P2','Book',100,1),
+('O2','Meena','Delhi','P3','Bag',500,1),
+('O2','Meena','Delhi','P3','Bag',500,2);
+
+
+2NF:
+
+CREATE TABLE Orders (
+  OrderID VARCHAR(10) PRIMARY KEY,
+  CustomerName VARCHAR(50),
+  City VARCHAR(50)
+);
+
+INSERT INTO Orders (OrderID, CustomerName, City) VALUES
+('O1','Ravi','Mumbai'),
+('O2','Meena','Delhi');
+
+
+CREATE TABLE Products (
+  ProductID VARCHAR(10) PRIMARY KEY,
+  ProductName VARCHAR(100),
+  Price DECIMAL(10,2)
+);
+
+INSERT INTO Products (ProductID, ProductName, Price) VALUES
+('P1','Pen',10),
+('P2','Book',100),
+('P3','Bag',500);
+
+CREATE TABLE OrderItems (
+  OrderID VARCHAR(10),
+  ProductID VARCHAR(10),
+  LineNo INT,            -- distinguishes multiple quantities for same product in same order
+  Quantity INT,
+  PRIMARY KEY (OrderID, ProductID, LineNo),
+  FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+  FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+INSERT INTO OrderItems (OrderID, ProductID, LineNo, Quantity) VALUES
+('O1','P1',1,2),
+('O1','P1',2,3),
+('O2','P2',1,1),
+('O2','P3',1,1),
+('O2','P3',2,2);
+
+
+
+
+
+
+
+
+
+
+
+
